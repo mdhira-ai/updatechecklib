@@ -1,11 +1,36 @@
-cmake_minimum_required(VERSION 3.10.0)
-project(updatechecklib VERSION 0.1.0 LANGUAGES C CXX)
+cmake_minimum_required(VERSION 3.10)
 
-find_package(cpr CONFIG REQUIRED)
+# Project name
+project(UpdateCheckLib)
 
-find_package(nlohmann_json CONFIG REQUIRED)
+# Set C++ standard
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-file(GLOB LIB_SOURCES "lib/*.cpp")
-add_executable(updatechecklib main.cpp ${LIB_SOURCES})
+# Add the library
+add_library(updatechecklib STATIC
+    lib/updatecheck.cpp
+)
 
-target_link_libraries(updatechecklib PRIVATE nlohmann_json::nlohmann_json cpr::cpr)
+# Include the header files
+target_include_directories(updatechecklib PUBLIC include)
+target_include_directories(updatechecklib PRIVATE /home/kali/Desktop/vcpkg/installed/x64-linux/include)
+target_include_directories(updatechecklib PRIVATE /home/kali/Qt/6.8.2/gcc_64/include)
+
+# Add the executable
+add_executable(updatecheck main.cpp)
+
+# Link the library to the executable
+target_link_libraries(updatecheck PRIVATE updatechecklib)
+
+# Link external libraries (cpr and nlohmann/json)
+find_package(cpr REQUIRED)
+find_package(nlohmann_json REQUIRED)
+target_link_libraries(updatecheck PRIVATE cpr::cpr nlohmann_json::nlohmann_json)
+
+# Specify the path to Qt6Config.cmake
+set(CMAKE_PREFIX_PATH "/home/kali/Qt/6.8.2/gcc_64/lib/cmake")
+
+# Find and link Qt6 libraries
+find_package(Qt6 REQUIRED COMPONENTS Widgets)
+target_link_libraries(updatecheck PRIVATE Qt6::Widgets)

@@ -1,13 +1,14 @@
 #include <iostream>
-#include "lib/updatecheck.h"
+#include "updatecheck.h"
 
 
 int main(int, char**){
 
     CheckUpdate getupdate("https://raw.githubusercontent.com/mdhira-ai/testupdategui/refs/heads/master/version.json");
 
-    getupdate.compareversion(1);
+    int dd = getupdate.compareversion(2);
 
+    std::cout << dd;
     // tasks
 
     // to make a download link

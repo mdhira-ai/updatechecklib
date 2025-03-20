@@ -1,13 +1,13 @@
+#include <cpr/cpr.h> 
+#include <nlohmann/json.hpp>
+#include <iostream>
+#include <string>
+#include <QtCore/QDebug>
+
 
 #if !defined(UPDATECHECK_H)
 #define UPDATECHECK_H
 
-#include <iostream>
-#include <string>
-#include <cpr/cpr.h> // Include the cpr library
-#include <nlohmann/json.hpp>
-
-using json = nlohmann::json;
 
 
 class CheckUpdate{
@@ -17,7 +17,7 @@ class CheckUpdate{
     public:
         CheckUpdate(std::string URL);
 
-        void compareversion(int currentversion);
+        int compareversion(int currentversion);
 
         ~CheckUpdate();
 

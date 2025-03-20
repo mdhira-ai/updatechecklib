@@ -1,11 +1,15 @@
 #include "updatecheck.h"
 
+
+using json = nlohmann::json;
+
+
 CheckUpdate::CheckUpdate(std::string url)
 {
     this->URL = url;
 }
 
-void CheckUpdate::compareversion(int cv)
+int CheckUpdate::compareversion(int cv)
 {
 
     // request url
@@ -29,18 +33,22 @@ void CheckUpdate::compareversion(int cv)
                 // compare with current version
                 if (verison >= cv)
                 {
+                    // qDebug() << "Already Updated " << verison << "\n";
+                    return verison;
                     // show there is new update or not
-                    std::cout << "Already Updated " << verison << "\n";
                 }
                 else
                 {
-                    std::cout << "There is new Update " << verison << "\n";
+                    // qDebug() << "There is new Update " << verison << "\n";
+                    return verison;
+                
                 }
             }
         }
         catch (const std::exception &e)
         {
-            std::cerr << e.what() << '\n';
+            qDebug() << e.what() << '\n';
+            // return e.what();
         }
     }
 }
